@@ -1,41 +1,25 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Checkout Code') {
+        stage('Connect To Github') {
             steps {
-                echo 'Checking out repository...'
-                checkout scm
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/RidwanAz/jenkins-scm.git']])
             }
         }
-        
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Building the project...'
-                sh 'ls -la'  // Lists files in the workspace
+                script {
+                    sh 'docker build -t dockerfile .'
+                }
             }
         }
-        
-        stage('Test') {
+        stage('Run Docker Container') {
             steps {
-                echo 'Running tests...'
-                sh 'cat index.html'  // Prints the content of index.html
+                script {
+                    sh 'docker run -itd -p 8081:80 dockerfile'
+                }
             }
-        }
-        
-        stage('Deploy') {
-            steps {
-                echo 'Deployment stage (Not implemented yet)'
-            }
-        }
-    }
-    
-    post {
-        success {
-            echo 'Build succeeded!'
-        }
-        failure {
-            echo 'Build failed!'
         }
     }
 }
