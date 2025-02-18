@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Connect To Github') {
             steps {
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/RidwanAz/jenkins-scm.git']])
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Danny-Flames/jenkins-scm.git']])
             }
         }
         stage('Build Docker Image') {
