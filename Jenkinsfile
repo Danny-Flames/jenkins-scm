@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM(
+            '* * * * *'
+        )
+    }
+
     stages {
         stage('Connect To Github') {
             steps {
